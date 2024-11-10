@@ -1,6 +1,11 @@
 <template>
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center my-10">
         <SearchBox @onSearch="handleSearch" :value="savedQuery" />
+
+        <div v-if="loading">
+            <Icon class="text-[50px] text-[#ff5252]" icon="svg-spinners:3-dots-scale"></Icon>
+        </div>
+
         <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             <CardBox v-for="(post, index) in filteredPosts" :key="index" :title="post.title" :description="post.body"
                 :imgSrc="postImage(post.id)" />
@@ -13,11 +18,13 @@ import { ref, onMounted } from 'vue';
 import SearchBox from '../components/SearchBox.vue';
 import CardBox from '../components/CardBox.vue';
 import axios from 'axios';
+import { Icon } from '@iconify/vue/dist/iconify.js';
 
 const posts = ref([]);
 const photos = ref([]);
 const filteredPosts = ref([]);
 const searchQuery = ref('');
+const loading = ref(true); // Track the loading state
 
 const fetchData = async () => {
     try {
@@ -39,9 +46,11 @@ const fetchData = async () => {
             filteredPosts.value = posts.value;
         }
 
+        loading.value = false; // Set loading to false after data is fetched
         console.log(postsResponse, photosResponse);
     } catch (error) {
         console.error('Error fetching data:', error);
+        loading.value = false; // Set loading to false if there's an error
     }
 };
 
@@ -71,4 +80,19 @@ const handleSearch = (query) => {
 onMounted(fetchData);
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Optional: Add some custom styles for the loading spinner */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>

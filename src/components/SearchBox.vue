@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center items-center mt-10 mb-20 text-2xl font-medium w-3/4 sm:w-1/2">
+    <div class="flex justify-center items-center mb-20 text-2xl font-medium w-3/4 sm:w-1/2">
         <div class="relative w-full">
             <input type="text" v-model="query" placeholder="Search..." class="border p-2 rounded w-full pr-10" />
             <button @click="onSearch"
@@ -26,7 +26,7 @@ onMounted(() => {
 
 const onSearch = () => {
     emit('onSearch', query.value);
-    localStorage.setItem('searchQuery', query.value); 
+    localStorage.setItem('searchQuery', query.value);
 };
 </script>
 

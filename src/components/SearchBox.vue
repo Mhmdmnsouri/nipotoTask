@@ -10,19 +10,23 @@
     </div>
 </template>
 
-
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 
 const query = ref('');
-
 const emit = defineEmits(['onSearch']);
 
-const onSearch = () => {
-    console.log(query.value);
+onMounted(() => {
+    const savedQuery = localStorage.getItem('searchQuery');
+    if (savedQuery) {
+        query.value = savedQuery;
+    }
+});
 
+const onSearch = () => {
     emit('onSearch', query.value);
+    localStorage.setItem('searchQuery', query.value); 
 };
 </script>
 

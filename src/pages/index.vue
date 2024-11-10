@@ -7,8 +7,8 @@
         </div>
 
         <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            <CardBox v-for="(post, index) in filteredPosts" :key="index" :title="post.title" :description="post.body"
-                :imgSrc="postImage(post.id)" />
+            <CardBox v-for="post in filteredPosts" :key="post.id" :title="post.title" :description="post.body"
+                :id="post.id" :imgSrc="postImage(post.id)" />
         </section>
     </div>
 </template>
@@ -24,7 +24,7 @@ const posts = ref([]);
 const photos = ref([]);
 const filteredPosts = ref([]);
 const searchQuery = ref('');
-const loading = ref(true); // Track the loading state
+const loading = ref(true);
 
 const fetchData = async () => {
     try {
@@ -46,11 +46,10 @@ const fetchData = async () => {
             filteredPosts.value = posts.value;
         }
 
-        loading.value = false; // Set loading to false after data is fetched
-        console.log(postsResponse, photosResponse);
+        loading.value = false;
     } catch (error) {
         console.error('Error fetching data:', error);
-        loading.value = false; // Set loading to false if there's an error
+        loading.value = false;
     }
 };
 
@@ -81,7 +80,6 @@ onMounted(fetchData);
 </script>
 
 <style scoped>
-/* Optional: Add some custom styles for the loading spinner */
 .animate-spin {
     animation: spin 1s linear infinite;
 }

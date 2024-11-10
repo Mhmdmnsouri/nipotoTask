@@ -4,6 +4,5 @@ export default {
   theme: {
     extend: {},
   },
-  // css: ["~/assets/styles/tailwind.css", "~/assets/styles/main.css"],
   plugins: [],
 };
